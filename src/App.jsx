@@ -39,9 +39,9 @@ function App() {
             }
           </div>
 
-          <div className='flex gap-14 mt-28 w-full max-lg:flex-col-reverse max-lg:items-center'>
-            <h1 className='lg:hidden max-lg:block text-[6rem] font-bold'>Shoes</h1>
-            <div className='relative group max-w-[25rem] bg-black overflow-hidden rounded-3xl max-lg:w-full'>
+          <div className='flex gap-14 mt-28 w-full max-2xl:flex-col-reverse max-2xl:items-center'>
+            <h1 className='2xl:hidden max-lg:block text-[6rem] font-bold'>Shoes</h1>
+            <div className='relative group max-w-[25rem] bg-black overflow-hidden rounded-3xl max-2xl:w-full'>
               <img src="/p2.png" alt="" className='group-hover:scale-105 h-full'/>
               <div className='absolute top-10 left-10 text-white cursor-default'>
                 <h3 className='text-lg font-medium'>Loafers Foam XVII</h3>
@@ -65,8 +65,8 @@ function App() {
             </div>
             <div>
               <div className='cursor-default -mt-36'>
-                <h1 className='text-[15rem] max-lg:text-[6rem] max-lg:mt-8 font-bold tracking-[-2rem] max-lg:tracking-normal max-lg:hover:tracking-normal hover:tracking-wider text-[rgba(249,126,47,1)]'>Men's</h1>
-                <h1 className='text-[15rem] -mt-36 font-bold max-lg:hidden'>Shoes</h1>
+                <h1 className='text-[15rem] max-lg:text-[6rem] max-2xl:text-[20rem] max-2xl:mt-8 font-bold tracking-[-2rem] max-lg:tracking-normal max-lg:hover:tracking-normal hover:tracking-wider text-[rgba(249,126,47,1)]'>Men's</h1>
+                <h1 className='text-[15rem] -mt-36 font-bold max-2xl:hidden'>Shoes</h1>
               </div>
               <div className='flex gap-40 max-lg:hidden'>
                 {
