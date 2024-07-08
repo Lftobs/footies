@@ -75,7 +75,7 @@ function App() {
             </div>
             <div>
               <div className='cursor-default -mt-36'>
-                <h1 className='text-[15rem] max-lg:text-[6rem] max-2xl:text-[20rem] max-2xl:mt-8 font-bold tracking-[-2rem] max-lg:tracking-normal max-lg:hover:tracking-normal hover:tracking-wider text-[rgba(249,126,47,1)]'>Men's</h1>
+                <h1 className='text-[15rem] max-lg:text-[6rem] max-2xl:text-[13rem] max-2xl:mt-8 font-bold tracking-[-2rem] max-lg:tracking-normal max-lg:hover:tracking-normal hover:tracking-wider text-[rgba(249,126,47,1)]'>Men's</h1>
                 <h1 className='text-[15rem] -mt-36 font-bold max-2xl:hidden'>Shoes</h1>
               </div>
               <div className='flex gap-40 max-lg:hidden'>
