@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import Layout from './layouts/Layout'
 import Products from './components/Products'
@@ -12,7 +12,17 @@ const products = [
 ];
 
 function App() {
-
+  
+  useEffect(() => {
+    window.scrollTo(
+      {
+        top: 0,
+        behavior: 'smooth'
+      }
+    )
+    
+    // document.querySelector('.deets').style.backgroundSize = '100vw ' 
+  }, [])
   
 
   return (
