@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import Layout from './layouts/Layout'
 import Products from './components/Products'
+import { Link } from 'react-router-dom';
 
 
 const products = [
@@ -36,6 +37,46 @@ function App() {
                 <Products product={product}/>
               ))
             }
+          </div>
+
+          <div className='flex gap-14 mt-28 w-full max-lg:flex-col-reverse max-lg:items-center'>
+            <h1 className='lg:hidden max-lg:block text-[6rem] font-bold'>Shoes</h1>
+            <div className='relative group max-w-[25rem] bg-black overflow-hidden rounded-3xl max-lg:w-full'>
+              <img src="/p2.png" alt="" className='group-hover:scale-105 h-full'/>
+              <div className='absolute top-10 left-10 text-white cursor-default'>
+                <h3 className='text-lg font-medium'>Loafers Foam XVII</h3>
+                <p className='opacity-90'>Men'<s></s></p>
+                <p className='font-extrabold text-lg'>1250.05</p>
+              </div>
+              <div className='absolute flex flex-col items-center bottom-10  text-white w-[25rem] cursor-default'>
+                <Link to={'/products/10'} state={{
+                    id: 10,
+                    name: 'Loafers Foam XVII',
+                    img: 'p2.png',
+                    price: 1250.05
+                  }}
+                  className='flex items-center font-medium mb-3 w-full gap-3 ml-32 hover:opacity-90]'
+                >
+                  Add to bag <img src="/arr-r.png" alt="" className='w-8 h-4' />
+                </Link>
+                <h3 className='text-3xl font-bold text-left w-10/12 tracking-widest max-lg:tracking-wide mb-1'>New Arrivals</h3>
+                <p className='opacity-90 text-left w-10/12 text-base max-lg:text-xs max-lg:text-balance'>Browser through the available collection or simply search to add to cart quickly!</p>
+              </div>
+            </div>
+            <div>
+              <div className='cursor-default -mt-36'>
+                <h1 className='text-[15rem] max-lg:text-[6rem] max-lg:mt-8 font-bold tracking-[-2rem] max-lg:tracking-normal max-lg:hover:tracking-normal hover:tracking-wider text-[rgba(249,126,47,1)]'>Men's</h1>
+                <h1 className='text-[15rem] -mt-36 font-bold max-lg:hidden'>Shoes</h1>
+              </div>
+              <div className='flex gap-40 max-lg:hidden'>
+                {
+                  [{id: 4, name: 'Loafers Foam VII', img: 'p3.png', price: 852.18 }, {id: 4, name: 'Loafers Foam XVI', img: 'p4.png', price:689.12 }].map((product) => (
+                    <Products product={product} />
+                  ))
+                }
+              </div>
+            </div>
+            
           </div>
 
           <div className=' my-10 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >

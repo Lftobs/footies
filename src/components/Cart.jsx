@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAtom } from 'jotai';
 import { cartAtom } from '../store';
 import Layout from '../layouts/Layout';
@@ -8,9 +8,15 @@ import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const navigate = useNavigate()
+  const [show, setShow] = useState(false)
   const [cart] = useAtom(cartAtom);
   const total = cart.length != 0 ? cart.reduce((acc, item) => acc + item.price * item.quantity, 0) : 0 
   const fee = cart.length != 0 ? 80 : 0
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    setShow(true)
+  }
 
   return (
     <Layout page={'cart'}>
@@ -25,7 +31,7 @@ const Cart = () => {
             <>
               <div className=' flex w-11/12 gap-8 mb-10'>
                 <div className='w-[20%] flex justify-start max-lg:w-1/2 max-[800px]:w-[20rem]'>
-                  <img src={item.img} alt="" className='w-11/12 max-[800px]:w-full ' />
+                  <img src={item.img} alt="" className='w-11/12 max-h-[16rem] max-[800px]:w-full ' />
                 </div>
               <div className='w-[70%] max-lg:w-1/2'>
                 <div className='flex justify-between text-[1.3rem] font-medium max-lg:text-right max-lg:text-base'>
@@ -38,7 +44,7 @@ const Cart = () => {
                 <div className='hidden relative w-full max-lg:flex my-4 max-lg:gap-3 max-lg:justify-end max-[800px]:my-2' >
                   <div className='block w-[4rem] '>
                     <div className='w-full h-10 grid place-items-center border-[1px] border-black rounded-lg'>
-                      <p className='text-center font-bold'>1 pair</p>
+                      <p className='text-center font-bold'>{item.quantity} pair</p>
                     </div>
                   </div>
                   <div className='block w-[4rem] '>
@@ -90,7 +96,7 @@ const Cart = () => {
                         </details>
                     </div>
                     <div className='w-[7rem] h-10 grid place-items-center border-[1px] border-black rounded-lg'>
-                      <p className='text-center font-bold'>1 pair</p>
+                      <p className='text-center font-bold'>{item.quantity} pair</p>
                     </div>
                   </div>
                   
@@ -139,18 +145,26 @@ const Cart = () => {
                 </div>
                 <input type="text" name="card number" id="" className='h-20 w-full mb-8 px-8 outline-none hover:placeholder:text-right placeholder:text-black border-[1.5px] border-black rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'  placeholder="House address" />
 
-                <button className='h-20 w-full bg-[rgba(249,126,47,1)] text-base mt-6 text-white mb-8 px-8 outline-none rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'>Place order</button>
+                <button onClick={(e) =>handleClick(e)} className='h-20 w-full bg-[rgba(249,126,47,1)] text-base mt-6 text-white mb-8 px-8 outline-none rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'>Place order</button>
               </form>
 
               <div className='flex text-[rgba(249,126,47,1)] gap-4 justify-center mt-8 cursor-pointer' onClick={() => navigate('/')}>
-                <p>Browse for more show</p>
+                <p>Browse for more shoes</p>
                 <img src="/arr-right-1.png" alt="" className='w-10' />
               </div>
             </div>
           </div>
         )}
       
-      
+      <div className={`${show ? 'fixed overflow-hidden flex justify-center items-center h-svh w-full z-50 backdrop-blur-2xl' : 'hidden'}`}>
+        <div className=' bg-[rgba(242,238,231,1)] p-14 max-md:px-1 max-lg:w-11/12 rounded-lg text-black grid'>
+          <p className='w-auto text-center text-3xl max-lg:text-2xl font-bold mb-5'>Thank you for shopping with us!</p>
+          <div className='flex text-[rgba(249,126,47,1)] gap-4 justify-center cursor-pointer' onClick={() => navigate('/')}>
+              <p>Browse for more shoes</p>
+              <img src="/arr-right-1.png" alt="" className='w-10' />
+            </div>
+        </div>
+      </div>
     </Layout>
     
   );

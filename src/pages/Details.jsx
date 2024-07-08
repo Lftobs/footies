@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../layouts/Layout'
 import Nav from '../components/Nav'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import Products from '../components/Products'
+import { cartAtom } from '../store'
+import { useAtom } from 'jotai'
 
 
 
@@ -14,17 +16,41 @@ const products = [
 
 
 const Details = () => {
+  const {id} = useParams()  
   const navigate = useNavigate()
   const location = useLocation()
+  const currentId = location.state.id 
+  const [reloadImg, setReloadImg] = useState(false)
   const page = ''
+  const [, setCart] = useAtom(cartAtom);
+
+  const addToCart = (product) => {
+    setCart((cart) => {
+      const existingItem = cart.find((item) => item.id === product.id);
+      if (existingItem) {
+        return cart.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      } else {
+        return [...cart, { ...product, quantity: 1 }];
+      }
+    });
+  };
+
   useEffect(() => {
+    window.scrollTo(
+      {
+        top: 0,
+        behavior: 'smooth'
+      }
+    )
     document.querySelector('.deets').style.backgroundImage = `url(${'/' + location.state.img})`
     // document.querySelector('.deets').style.backgroundSize = '100vw ' 
-  }, [])
+  }, [id])
   return (
     <main className={`w-full flex flex-col items-center text-white`}>
       <header 
-        className={`deets flex h-[120svh] flex-col items-center w-full bg-no-repeat bg-center bg-cover rounded-b-[2rem] mb-10 max-lg:h-[50svh] max-w-[2000px]    max-lg:p-0 }`}
+        className={`deets flex relative h-[120svh] flex-col items-center w-full bg-no-repeat bg-center max-lg:bg-top bg-cover rounded-b-[2rem] mb-10 max-lg:h-[50svh] max-w-[2000px]    max-lg:p-0 }`}
       >
         <Nav navigate={navigate} page={page}/>
         <nav className='hidden max-lg:flex justify-between items-center px-5 py-5 absolute top-0 w-full'>
@@ -46,7 +72,7 @@ const Details = () => {
           </div>  
         </div>
 
-        <div className=' absolute bottom-10 left-20 max-lg:hidden text-white'>
+        <div className=' absolute bottom-10 left-20 w-11/12 max-lg:hidden text-white max-w-[2000px]'>
           <h3 className=' font-medium text-4xl'>{location.state.name}</h3>
           <p className='opacity-90 text-xl'>Men'<s></s></p>
           <p className='font-extrabold text-3xl'>${location.state.price}</p>
@@ -129,8 +155,8 @@ const Details = () => {
           
           <div className='w-11/12 flex justify-start my-8'>
             <button 
-              onClick={() => navigate('/cart')}
-              className='p-6 mb-3 px-10  border-[1.5px]  border-black rounded-3xl flex items-center gap-5 text-lg '
+              onClick={() => {addToCart({id: id, name: location.state.name, price: location.state.price, img: location.state.img}), navigate('/cart')}}
+              className='p-6 mb-3 px-10 max-lg:px-5  border-[1.5px]  border-black rounded-3xl flex items-center gap-5 text-lg '
             >
               Proceed to checkout <img src='/arr-left-b.png' height={40} width={40} className='h-5 -rotate-180 w-10'/>
             </button>
@@ -150,7 +176,7 @@ const Details = () => {
             Check out other products.
         </p>
         </div>
-        <div className=' w-11/12 my-10 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5' >
+        <div className=' w-11/12 max-lg:w-10/12 my-10 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5' >
           {
             products.map((product) => (
               <Products product={product}/>
