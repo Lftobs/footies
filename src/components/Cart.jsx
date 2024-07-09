@@ -10,12 +10,14 @@ const Cart = () => {
   const navigate = useNavigate()
   const [show, setShow] = useState(false)
   const [cart] = useAtom(cartAtom);
+  const [, setCart] = useAtom(cartAtom);
   const total = cart.length != 0 ? cart.reduce((acc, item) => acc + item.price * item.quantity, 0) : 0 
   const fee = cart.length != 0 ? 80 : 0
 
   const handleClick = (e) => {
     e.preventDefault()
     setShow(true)
+    setCart([])
   }
 
   return (
