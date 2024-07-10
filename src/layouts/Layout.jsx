@@ -44,11 +44,11 @@ const Layout = ({children, page}) => {
                 </div>
               )}
 
-              <div className={`w-2/3 mt-10 flex flex-col justify-center mb-24 max-lg:hidden ${page==='cart' && 'hidden' }`}>
+              <div className={`w-2/3 mt-10 flex flex-col items-center justify-center mb-24 max-lg:hidden max-w-[2000px] ${page==='cart' && 'hidden' }`}>
                 <div className='max-lg:hidden'>
-                  <img src='/footies.svg' alt='hero' className='' />
+                  <img src='/footies.svg' alt='hero' className='max-w-[2000px]' />
                 </div>
-                <div className={`flex w-full justify-between font-medium max-lg:hidden`}>
+                <div className={`flex w-full justify-between font-medium max-lg:hidden max-w-[2000px]`}>
                   <div className='max-w-[34rem] text-balance text-lg'>
                     <p className='mb-5'>Through our collections we blur the borders between high fashion and high performance. Like our sneakers by Stella McCartney athletic clothing collection – designed to look the part inside and outside of the gym. Or some of our adidas Originals lifestyle pieces, that can be worn as sports apparel too.</p>
                     <button className='p-6 mb-3 px-10  border-[1.5px] border-white rounded-3xl flex items-center gap-5 text-lg hover:bg-black hover:border-black'>Explore <img src='/arr-r.png' height={40} width={40} className='h-5 w-10'/></button>

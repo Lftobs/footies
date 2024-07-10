@@ -28,7 +28,7 @@ function App() {
   return (
     <>
       <Layout >
-        <section className='w-4/5 text-black'>
+        <section className='w-4/5 text-black max-w-[2000px]'>
           <div className='my-10 flex justify-between max-lg:items-center'>
             <div className=''>
               <h1 className='text-4xl font-bold mb-2 max-lg:text-xl max-lg:mb-0'>Trending now</h1>
@@ -73,7 +73,7 @@ function App() {
                 <p className='opacity-90 text-left w-10/12 text-base max-lg:text-xs max-lg:text-balance'>Browser through the available collection or simply search to add to cart quickly!</p>
               </div>
             </div>
-            <div>
+            <div className='max-w-[2000px]'>
               <div className='cursor-default -mt-36'>
                 <h1 className='text-[15rem] max-lg:text-[6rem] max-2xl:text-[13rem] max-2xl:mt-8 font-bold tracking-[-2rem] max-lg:tracking-normal max-lg:hover:tracking-normal hover:tracking-wider text-[rgba(249,126,47,1)]'>Men's</h1>
                 <h1 className='text-[15rem] -mt-36 font-bold max-2xl:hidden'>Shoes</h1>
@@ -89,7 +89,7 @@ function App() {
             
           </div>
 
-          <div className=' my-10 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >
+          <div className=' my-10 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full max-w-[2000px]' >
             {
               products.map((product) => (
                 <Products product={product}/>
