@@ -12,7 +12,7 @@ const Layout = ({children, page}) => {
 
           
             <header 
-              className={`flex flex-col items-center w-full bg-[url("/hero.png")] bg-no-repeat bg-top bg-contain rounded-b-[4rem] bg-[rgba(174,170,165,255)] max-lg:h-auto max-lg:bg-none max-lg:p-0 ${page==='cart' && 'bg-none bg-transparent' }`}
+              className={`flex flex-col items-center w-full bg-[url("/hero.png")] bg-no-repeat bg-top bg-contain rounded-b-[4rem] max-w-[2000px] bg-[rgba(174,170,165,255)] max-lg:h-auto max-lg:bg-none max-lg:p-0 ${page==='cart' && 'bg-none bg-transparent' }`}
             >
               <div className='hidden max-lg:flex max-lg:flex-col items-center'>
                 {page==='cart' && (
