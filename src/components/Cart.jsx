@@ -9,15 +9,21 @@ import { useNavigate } from 'react-router-dom';
 const Cart = () => {
   const navigate = useNavigate()
   const [show, setShow] = useState(false)
+  const [err, setErr] = useState('')
   const [cart] = useAtom(cartAtom);
   const [, setCart] = useAtom(cartAtom);
-  const total = cart.length != 0 ? cart.reduce((acc, item) => acc + item.price * item.quantity, 0) : 0 
+  const total = cart.length != 0 ? cart.reduce((acc, item) => acc + item.current_price[0].USD[0] * item.quantity, 0) : 0 
   const fee = cart.length != 0 ? 80 : 0
 
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    setShow(true)
-    setCart([])
+    if (e.target.checkValidity()) {
+      setShow(true)
+      setCart([])
+    } else {
+      setErr('Error: Invalid input(s)')
+    }
+    
   }
 
   return (
@@ -33,7 +39,7 @@ const Cart = () => {
             <>
               <div className=' flex w-11/12 gap-8 mb-10'>
                 <div className='w-[20%] flex justify-start max-lg:w-1/2 max-[800px]:w-[20rem]'>
-                  <img src={item.img} alt="" className='w-11/12 max-h-[16rem] max-[800px]:w-full ' />
+                  <img src={`https://api.timbu.cloud/images/${item.photos[0].url}`} alt="" className='w-11/12 max-h-[16rem] max-[800px]:w-full ' />
                 </div>
               <div className='w-[70%] max-lg:w-1/2'>
                 <div className='flex justify-between text-[1.3rem] font-medium max-lg:text-right max-lg:text-base'>
@@ -41,7 +47,7 @@ const Cart = () => {
                     <h1 className='max-lg:text-right max-lg:w-full'>{item.name}</h1>
                     <p>Men's</p>
                   </div>
-                  <p className='font-extrabold max-lg:hidden'>${item.price}</p>
+                  <p className='font-extrabold max-lg:hidden'>${item.current_price[0].USD[0] * item.quantity }</p>
                 </div>
                 <div className='hidden relative w-full max-lg:flex my-4 max-lg:gap-3 max-lg:justify-end max-[800px]:my-2' >
                   <div className='block w-[4rem] '>
@@ -138,19 +144,19 @@ const Cart = () => {
                 </div>
               </div>
               
-              <form action="" className='mt-10'>
-              <input type="text" name="holder's name" id="" className='h-20 w-full mb-8 px-8 outline-none hover:placeholder:text-right placeholder:text-black border-[1.5px] border-black rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'  placeholder="Cardholder's name" />
-              <input type="text" name="card number" id="" className='h-20 w-full mb-8 px-8 outline-none hover:placeholder:text-right placeholder:text-black border-[1.5px] border-black rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'  placeholder="Card number" />
+              <form action="" className='mt-10' onSubmit={(e) => handleSubmit(e)} noValidate>
+              <input type="text"  required name="holder's name" pattern=".{7,}" className='  invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-600 h-20 w-full mb-8 px-8 outline-none hover:placeholder:text-right placeholder:text-black border-[1.5px] border-black rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'  placeholder="Cardholder's name" />
+              <input type="text" required name="card number" pattern=".{7,}" className='  invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-600 h-20 w-full mb-8 px-8 outline-none hover:placeholder:text-right placeholder:text-black border-[1.5px] border-black rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'  placeholder="Card number" />
                 <div className='flex justify-evenly gap-5'>
-                  <input type="text" name="expiration" id="" className='h-20 w-full mb-8 px-8 outline-none hover:placeholder:text-right placeholder:text-black border-[1.5px] border-black rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'  placeholder='Expiration date' />
-                  <input type="text" name="cvv" id="" className='h-20 w-full mb-8 px-8 outline-none hover:placeholder:text-right placeholder:text-black border-[1.5px] border-black rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'  placeholder='CVV Number' />
+                  <input type="text" required name="expiration" pattern=".{5,}" id="" className=' invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-600 h-20 w-full mb-8 px-8 outline-none hover:placeholder:text-right placeholder:text-black border-[1.5px] border-black rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'  placeholder='Expiration date' />
+                  <input type="text" required name="cvv" pattern=".{3,}" id="" className='  invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-600 h-20 w-full mb-8 px-8 outline-none hover:placeholder:text-right placeholder:text-black border-[1.5px] border-black rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'  placeholder='CVV Number' />
                 </div>
-                <input type="text" name="card number" id="" className='h-20 w-full mb-8 px-8 outline-none hover:placeholder:text-right placeholder:text-black border-[1.5px] border-black rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'  placeholder="House address" />
-
-                <button onClick={(e) =>handleClick(e)} className='h-20 w-full bg-[rgba(249,126,47,1)] text-base mt-6 text-white mb-8 px-8 outline-none rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'>Place order</button>
+                <input type="text" required name="card number" id="" pattern=".{7,}" className='  invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-600 h-20 w-full mb-8 px-8 outline-none hover:placeholder:text-right placeholder:text-black border-[1.5px] border-black rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'  placeholder="House address" />
+                <p className='text-red-500 font-bold'>{err}</p>
+                <button type='submit' onClick={(e) =>handleClick(e)} className='  invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-600 h-20 w-full bg-[rgba(249,126,47,1)] text-base mt-6 text-white mb-8 px-8 outline-none rounded-3xl max-lg:h-14 max-lg:rounded-xl max-lg:placeholder:text-xs'>Place order</button>
               </form>
 
-              <div className='flex text-[rgba(249,126,47,1)] gap-4 justify-center mt-8 cursor-pointer' onClick={() => navigate('/')}>
+              <div className='flex text-[rgba(249,126,47,1)] gap-4 justify-center mt-8 cursor-pointer'>
                 <p>Browse for more shoes</p>
                 <img src="/arr-right-1.png" alt="" className='w-10' />
               </div>

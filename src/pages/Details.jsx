@@ -3,8 +3,9 @@ import Layout from '../layouts/Layout'
 import Nav from '../components/Nav'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import Products from '../components/Products'
-import { cartAtom } from '../store'
+import { cartAtom, productAtom } from '../store'
 import { useAtom } from 'jotai'
+import { getProductById, getAllProducts } from '../lib/utilis'
 
 
 
@@ -19,10 +20,11 @@ const Details = () => {
   const {id} = useParams()  
   const navigate = useNavigate()
   const location = useLocation()
-  const currentId = location.state.id 
   const [reloadImg, setReloadImg] = useState(false)
   const page = ''
-  const [, setCart] = useAtom(cartAtom);
+  const [products] = useAtom(productAtom);
+  const [, setProductAtom] = useAtom(productAtom);
+
 
   const addToCart = (product) => {
     setCart((cart) => {
@@ -36,21 +38,35 @@ const Details = () => {
       }
     });
   };
+  console.log(location.state, 'state')
+  useEffect(() => { 
+    window.scrollTo(
+      {
+        top: -10,
+        behavior: 'smooth'
+      }
+    )
+    window.addEventListener('reload', () => {
+      const getData = async () => {
+        const data = await getAllProducts();
+        setProductAtom(data)
+      };
+    })
+  }, [])
 
   useEffect(() => {
     window.scrollTo(
       {
-        top: 0,
+        top: -10,
         behavior: 'smooth'
       }
     )
-    document.querySelector('.deets').style.backgroundImage = `url(${'/' + location.state.img})`
-    // document.querySelector('.deets').style.backgroundSize = '100vw ' 
+    document.querySelector('.deets').style.backgroundImage = `url(${'https://api.timbu.cloud/images/' + location.state.img})`
   }, [id])
   return (
     <main className={`w-full flex flex-col items-center text-white`}>
       <header 
-        className={`deets flex relative h-[120svh] flex-col items-center w-full bg-no-repeat bg-center max-lg:bg-top bg-cover rounded-b-[2rem] mb-10 max-lg:h-[50svh] max-w-[2000px]    max-lg:p-0 }`}
+        className={`deets flex relative h-[110svh] flex-col items-center w-full bg-no-repeat bg-center max-lg:bg-top bg-cover rounded-b-[2rem] mb-10 max-lg:h-[50svh] max-w-[2000px]    max-lg:p-0 }`}
       >
         <Nav navigate={navigate} page={page}/>
         <nav className='hidden max-lg:flex justify-between items-center px-5 py-5 absolute top-0 w-full'>
@@ -72,7 +88,7 @@ const Details = () => {
           </div>  
         </div>
 
-        <div className=' absolute bottom-10 left-20 w-11/12 max-lg:hidden text-white max-w-[2000px]'>
+        <div className=' absolute bottom-32 left-20 w-11/12 max-lg:hidden text-white max-w-[2000px]'>
           <h3 className=' font-medium text-4xl'>{location.state.name}</h3>
           <p className='opacity-90 text-xl'>Men'<s></s></p>
           <p className='font-extrabold text-3xl'>${location.state.price}</p>
@@ -155,7 +171,7 @@ const Details = () => {
           
           <div className='w-11/12 flex justify-start my-8'>
             <button 
-              onClick={() => {addToCart({id: id, name: location.state.name, price: location.state.price, img: location.state.img}), navigate('/cart')}}
+              onClick={() => {addToCart({id: id, name: location.state.name, price: location.state.price}), navigate('/cart')}}
               className='p-6 mb-3 px-10 max-lg:px-5  border-[1.5px]  border-black rounded-3xl flex items-center gap-5 text-lg '
             >
               Proceed to checkout <img src='/arr-left-b.png' height={40} width={40} className='h-5 -rotate-180 w-10'/>
@@ -178,8 +194,8 @@ const Details = () => {
         </div>
         <div className=' w-11/12 max-lg:w-10/12 my-10 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5' >
           {
-            products.map((product) => (
-              <Products product={product}/>
+            products.slice(-3).reverse().map((product) => (
+              <Products product={product} />
             ))
           }
         </div>
@@ -211,6 +227,7 @@ const Details = () => {
       </section>
 
     </main>
+    // <p>det</p>
   )
 }
 
