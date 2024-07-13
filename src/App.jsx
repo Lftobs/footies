@@ -19,8 +19,7 @@ function App() {
 
   const next = (len) => {    
     carousel.current.scrollBy(760, 0)
-    console.log('carousel')
-    // setDot((prev) => (prev === 3 ? 3 : prev+1))  
+    
   }
   
   useEffect(() => {
@@ -40,14 +39,12 @@ function App() {
         item.categories.some(cat => cat.name === 'new')
       );
       setNewArrivals(categories.reverse());
-      console.log('norm', categories)
       
     };
   
     getData();
     setTimeout(() => setLoading(false), 5000)
     return () => {
-      // this now gets called when the component unmounts
     };
   }, []);
   

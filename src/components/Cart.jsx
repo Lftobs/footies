@@ -39,7 +39,7 @@ const Cart = () => {
             <>
               <div className=' flex w-11/12 gap-8 mb-10'>
                 <div className='w-[20%] flex justify-start max-lg:w-1/2 max-[800px]:w-[20rem]'>
-                  <img src={`https://api.timbu.cloud/images/${item.photos[0].url}`} alt="" className='w-11/12 max-h-[16rem] max-[800px]:w-full ' />
+                  <img src={`https://api.timbu.cloud/images/${item.photos[0].url}`} alt="" className='w-11/12 max-h-[16rem] rounded-3xl max-[800px]:w-full ' />
                 </div>
               <div className='w-[70%] max-lg:w-1/2'>
                 <div className='flex justify-between text-[1.3rem] font-medium max-lg:text-right max-lg:text-base'>
