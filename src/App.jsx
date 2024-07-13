@@ -79,7 +79,7 @@ function App() {
           </div>
 
           <NewArrivials products={newArrivals} />
-
+          
           {/* <div ref={carousel} className='carousel max-2xl:hidden my-16 overflow-scroll pr-[95px] max grid w-full max-w-[100rem]' >
             {
               products.slice(0, 5).reverse().map((product) => (

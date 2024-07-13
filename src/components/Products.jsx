@@ -10,9 +10,7 @@ const Products = ({product}) => {
     const navigate = useNavigate()
     const [hold, setHold] = useState(false)
     const [img, setImg] = useState([])
-    // const imgUrls = product.photos.map(photo => photo.url);
-    // console.log('product', product.photos.forEach(photo => photo.url))
-    console.log('product', product.photos[0].url)
+    
     useEffect(() => {
         
     }, [])
@@ -22,13 +20,16 @@ const Products = ({product}) => {
         setCart((cart) => {
           const existingItem = cart.find((item) => item.id === product.id);
           if (existingItem) {
+            
             return cart.map((item) =>
               item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
             );
           } else {
             return [...cart, { ...product, quantity: 1 }];
           }
+          
         });
+        
         setTimeout(() => {
           setHold(false)
         }, 1000)

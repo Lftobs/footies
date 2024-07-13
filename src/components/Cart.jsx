@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { cartAtom } from '../store';
 import Layout from '../layouts/Layout';
 import { useNavigate } from 'react-router-dom';
-
 
 
 const Cart = () => {
@@ -25,6 +24,19 @@ const Cart = () => {
     }
     
   }
+
+  const removeFromCart = (item) => {
+    setCart((cart) => cart.filter((cartItem) => cartItem.name !== item));
+  };
+
+  const updateQuantity = (qyt, name) => {
+    setCart((cart) =>
+      cart.map((cartItem) =>
+        cartItem.name === name ? { ...cartItem, quantity: qyt } : cartItem
+      )
+    );
+  };
+
 
   return (
     <Layout page={'cart'}>
@@ -68,7 +80,7 @@ const Cart = () => {
                 <div className='hidden mt-10 max-lg:flex justify-end max-lg:font-extrabold max-lg:text-2xl max-[800px]:mt-1 max-[800px]:text-xl'>
                   <p>${item.price}</p>
                 </div>
-                <div className='mt-10 flex gap-8 max-lg:flex-col max-lg:hidden'>
+                <div className='mt-10 flex gap-8 items-center max-lg:flex-col max-lg:hidden'>
                   <div className='flex flex-col items-center'>
                     <div className='flex  gap-8 '>
                       <p className='font-bold mb-2 text-center'>Size</p>
@@ -95,10 +107,15 @@ const Cart = () => {
                           <summary></summary>
                           <div className='absolute border-[1px] border-black w-20  rounded-lg -ml-8 backdrop-blur-lg'>
                             <ul className=''>
-                              <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>1 pair</li>
-                              <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>2 pair</li>
+                              {
+                                Array(5).fill().map((_, i) => (
+                                  <li onClick={() => updateQuantity(i+1, item.name)} className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>{i + 1} pair</li>
+                                ))
+                              }
+                             
+                              {/* <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>2 pair</li>
                               <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>3 pair</li>
-                              <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>4 pair</li>
+                              <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>4 pair</li> */}
                             </ul>
                           </div>
                         </details>
@@ -107,7 +124,7 @@ const Cart = () => {
                       <p className='text-center font-bold'>{item.quantity} pair</p>
                     </div>
                   </div>
-                  
+                  <button className='self-end pb-2' onClick={() => removeFromCart(item.name)}><img src="/delete.png" alt="delete" className='h-10 w-10' /></button>
                 </div>
               </div>
               </div>
