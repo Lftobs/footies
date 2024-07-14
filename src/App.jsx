@@ -70,7 +70,7 @@ function App() {
             </div>
             
           </div>
-          <div className=' my-10 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >
+          <div className=' my-24 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >
             {
               products.slice(-3).reverse().map((product) => (
                 <Products product={product} />
@@ -88,7 +88,7 @@ function App() {
               ))
             }
           </div> */}
-          <div className=' my-10 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >
+          <div className=' my-24 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >
             {
               products.slice(0, 3).reverse().map((product) => (
                 <Products product={product} />

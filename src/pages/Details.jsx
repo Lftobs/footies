@@ -21,34 +21,37 @@ const Details = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [loading, setLoading] = useState(false)
+  const [disabled, setDisabled] = useState(true)
   const [cart, setCart] = useAtom(cartAtom);
+  const [quantity, setQuantity] = useState(1)
   const page = ''
   const [products] = useAtom(productAtom);
   const [singleProduct, setSingleProduct] = useState([])
   const [, setProductAtom] = useAtom(productAtom);
 
-  const prod = async () => { 
 
-    let data = await getProductById(id)
-    setSingleProduct(data)
-  
-  }
-  console.log(prod)
+  const updateQuantity = (qyt) => {
+    setQuantity(qyt)
+  };
 
 
-  const addToCart = (product) => {
+  const addToCart = (singleProduct) => {
     setCart((cart) => {
-      const existingItem = cart.find((item) => item.id === product.id);
+      const existingItem = cart.find((item) => item.id === singleProduct.id);
       if (existingItem) {
         return cart.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === singleProduct.id ? { ...item, quantity:  item.quantity + quantity < 5 ? item.quantity + quantity : 1 } : item
         );
       } else {
-        return [...cart, { ...product, quantity: 1 }];
+        return [...cart, { ...singleProduct, quantity: quantity }];
       }
     });
   };
-  console.log(location.state, 'state')
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart])
+
   useEffect(() => { 
     window.scrollTo(
       {
@@ -62,12 +65,27 @@ const Details = () => {
       const data = await getAllProducts();
       
       setProductAtom(data)
+      let prod = await getProductById(id)
       setSingleProduct(prod)
+      setSingleProduct(prevState => ({
+        ...prevState,
+        current_price: [
+          {
+            USD: [
+              location.state.price,
+              null,
+              []
+            ]
+          }
+        ]
+      }))
+      setDisabled(false)
       console.log(data, prod, 'prod')
-      //setTimeout(() => setLoading(false), 5000)
+
+      setTimeout(() => setLoading(false), 5000)
     };
     getData();
-    setLoading(false)
+    // setLoading(false)
 
     return () => {
     };
@@ -154,16 +172,18 @@ const Details = () => {
                       <summary></summary>
                       <div className='absolute border-[1px] border-black w-20  rounded-lg -ml-8 backdrop-blur-lg'>
                         <ul className=''>
-                          <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>45 ER</li>
-                          <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>40 ER</li>
-                          <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>35 ER</li>
-                          <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>30 ER</li>
+                          {
+                            Array(5).fill().map((_, i) => (
+                              <li onClick={() => updateQuantity(i+1, location.state.name)} className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>{i + 1} pair</li>
+                            ))
+                          }
+                          
                         </ul>
                       </div>
                     </details>
                 </div>
                 <div className='w-[7rem] h-10 grid place-items-center border-[1px] border-black rounded-lg'>
-                  <p className='text-center font-bold'>1 pair</p>
+                  <p className='text-center font-bold'>{quantity} pair</p>
                 </div>
               </div>
               <div className='flex flex-col items-center'>
@@ -173,10 +193,7 @@ const Details = () => {
                       <summary></summary>
                       <div className='absolute border-[1px] border-black w-20  rounded-lg -ml-8 backdrop-blur-lg'>
                         <ul className=''>
-                          <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>1 pair</li>
-                          <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>2 pair</li>
-                          <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>3 pair</li>
-                          <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>4 pair</li>
+                          <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>45 ER</li>
                         </ul>
                       </div>
                     </details>
@@ -191,9 +208,9 @@ const Details = () => {
           
           <div className='w-11/12 flex justify-start my-8'>
             <button
-              disabled={true} 
+              disabled={false} 
               onClick={() => {addToCart(singleProduct), navigate('/cart')}}
-              className='p-6 mb-3 px-10 max-lg:px-5  border-[1.5px]  border-black rounded-3xl flex items-center gap-5 text-lg '
+              className={`${disabled && 'hidden'} p-6 mb-3 px-10 max-lg:px-5  border-[1.5px]  border-black rounded-3xl flex items-center gap-5 text-lg`}
             >
               Proceed to checkout <img src='/arr-left-b.png' height={40} width={40} className='h-5 -rotate-180 w-10'/>
             </button>

@@ -128,9 +128,6 @@ const Cart = () => {
                                 ))
                               }
                              
-                              {/* <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>2 pair</li>
-                              <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>3 pair</li>
-                              <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>4 pair</li> */}
                             </ul>
                           </div>
                         </details>
