@@ -1,6 +1,8 @@
 // src/atoms.js
 import { atom } from 'jotai';
 
-export const cartAtom = atom([]);
+const initialCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+export const cartAtom = atom(initialCart);
 
 export const productAtom = atom([]);

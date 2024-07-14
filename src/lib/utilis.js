@@ -13,7 +13,7 @@ export const getAllProducts = async () => {
 }
 
 export const getProductById = async (id) => {
-    let url =`/api/products/${id}?organization_id=${import.meta.env.VITE_ORGID}&reverse_sort=false&page=1&size=10&Appid=${import.meta.env.VITE_Appid}&Apikey=${import.meta.env.VITE_APIKEY}`
+    let url =`https://timbu-get-single-product.reavdev.workers.dev/${id}?organization_id=${import.meta.env.VITE_ORGID}&reverse_sort=false&page=1&size=10&Appid=${import.meta.env.VITE_Appid}&Apikey=${import.meta.env.VITE_APIKEY}`
     try {
         const response = await fetch(url);
         const data = await response.json();

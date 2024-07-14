@@ -6,14 +6,14 @@ import { useNavigate } from 'react-router-dom'
 
 
 const Products = ({product}) => {
-    const [, setCart] = useAtom(cartAtom);
+    const [cart, setCart] = useAtom(cartAtom);
     const navigate = useNavigate()
     const [hold, setHold] = useState(false)
     const [img, setImg] = useState([])
     
     useEffect(() => {
-        
-    }, [])
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
 
     const addToCart = (product) => {
         setHold(true)

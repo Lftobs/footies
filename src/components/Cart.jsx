@@ -9,8 +9,7 @@ const Cart = () => {
   const navigate = useNavigate()
   const [show, setShow] = useState(false)
   const [err, setErr] = useState('')
-  const [cart] = useAtom(cartAtom);
-  const [, setCart] = useAtom(cartAtom);
+  const [cart, setCart] = useAtom(cartAtom);
   const total = cart.length != 0 ? cart.reduce((acc, item) => acc + item.current_price[0].USD[0] * item.quantity, 0) : 0 
   const fee = cart.length != 0 ? 80 : 0
 
@@ -27,6 +26,7 @@ const Cart = () => {
 
   const removeFromCart = (item) => {
     setCart((cart) => cart.filter((cartItem) => cartItem.name !== item));
+    localStorage.setItem('cart', JSON.stringify(cart));
   };
 
   const updateQuantity = (qyt, name) => {
@@ -36,6 +36,17 @@ const Cart = () => {
       )
     );
   };
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart])
+
+  useEffect(() => {
+    const storedCart = localStorage.getItem('cart');
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, [setCart]);
 
 
   return (
@@ -59,7 +70,7 @@ const Cart = () => {
                     <h1 className='max-lg:text-right max-lg:w-full'>{item.name}</h1>
                     <p>Men's</p>
                   </div>
-                  <p className='font-extrabold max-lg:hidden'>${item.current_price[0].USD[0] * item.quantity }</p>
+                  <p className='font-extrabold max-lg:hidden'>${(item.current_price[0].USD[0] * item.quantity).toFixed(2) }</p>
                 </div>
                 <div className='hidden relative w-full max-lg:flex my-4 max-lg:gap-3 max-lg:justify-end max-[800px]:my-2' >
                   <div className='block w-[4rem] '>
@@ -74,11 +85,15 @@ const Cart = () => {
                   </div>
                 </div>
                 <div className='flex gap-5 mt-10 items-center max-lg:mt-8 max-lg:flex-col max-lg:items-end max-lg:pr-4 max-lg:gap-1 max-[800px]:mt-2'>
-                  <span className='h-11 w-11 rounded-full bg-[rgba(242,238,231,1)] max-lg:h-9 max-lg:w-9'></span>
+                  <div className='flex gap-5 mt-2'>
+                    <span className='h-11 w-11 rounded-full bg-[rgba(242,238,231,1)] max-lg:h-9 max-lg:w-9'></span>
+                    <button className='self-end pb-2 lg:hidden' onClick={() => removeFromCart(item.name)}><img src="/delete.png" alt="delete" className='h-8 w-8' /></button>
+                  </div>
+                  
                   <p>White</p>
                 </div>
                 <div className='hidden mt-10 max-lg:flex justify-end max-lg:font-extrabold max-lg:text-2xl max-[800px]:mt-1 max-[800px]:text-xl'>
-                  <p>${item.price}</p>
+                  <p>${item.current_price[0].USD[0] * item.quantity}</p>
                 </div>
                 <div className='mt-10 flex gap-8 items-center max-lg:flex-col max-lg:hidden'>
                   <div className='flex flex-col items-center'>
@@ -124,7 +139,7 @@ const Cart = () => {
                       <p className='text-center font-bold'>{item.quantity} pair</p>
                     </div>
                   </div>
-                  <button className='self-end pb-2' onClick={() => removeFromCart(item.name)}><img src="/delete.png" alt="delete" className='h-10 w-10' /></button>
+                  <button className='self-end pb-2 max-lg:hidden' onClick={() => removeFromCart(item.name)}><img src="/delete.png" alt="delete" className='h-10 w-10' /></button>
                 </div>
               </div>
               </div>

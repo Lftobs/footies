@@ -20,10 +20,20 @@ const Details = () => {
   const {id} = useParams()  
   const navigate = useNavigate()
   const location = useLocation()
-  const [reloadImg, setReloadImg] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [cart, setCart] = useAtom(cartAtom);
   const page = ''
   const [products] = useAtom(productAtom);
+  const [singleProduct, setSingleProduct] = useState([])
   const [, setProductAtom] = useAtom(productAtom);
+
+  const prod = async () => { 
+
+    let data = await getProductById(id)
+    setSingleProduct(data)
+  
+  }
+  console.log(prod)
 
 
   const addToCart = (product) => {
@@ -46,12 +56,22 @@ const Details = () => {
         behavior: 'smooth'
       }
     )
-    window.addEventListener('reload', () => {
-      const getData = async () => {
-        const data = await getAllProducts();
-        setProductAtom(data)
-      };
-    })
+    
+    setLoading(true)
+    const getData = async () => {
+      const data = await getAllProducts();
+      
+      setProductAtom(data)
+      setSingleProduct(prod)
+      console.log(data, prod, 'prod')
+      //setTimeout(() => setLoading(false), 5000)
+    };
+    getData();
+    setLoading(false)
+
+    return () => {
+    };
+
   }, [])
 
   useEffect(() => {
@@ -170,8 +190,9 @@ const Details = () => {
           </div>
           
           <div className='w-11/12 flex justify-start my-8'>
-            <button 
-              onClick={() => {addToCart({id: id, name: location.state.name, price: location.state.price}), navigate('/cart')}}
+            <button
+              disabled={true} 
+              onClick={() => {addToCart(singleProduct), navigate('/cart')}}
               className='p-6 mb-3 px-10 max-lg:px-5  border-[1.5px]  border-black rounded-3xl flex items-center gap-5 text-lg '
             >
               Proceed to checkout <img src='/arr-left-b.png' height={40} width={40} className='h-5 -rotate-180 w-10'/>
@@ -193,11 +214,15 @@ const Details = () => {
         </p>
         </div>
         <div className=' w-11/12 max-lg:w-10/12 my-10 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5' >
-          {
-            products.slice(-3).reverse().map((product) => (
-              <Products product={product} />
-            ))
+          {loading && (
+              <div className='w-4/5 h-[10rem] flex justify-center text-black max-w-[2000px]'>
+                <div className='loader mt-32 text-4xl'></div>
+              </div>
+          )
           }
+
+          {!loading && products.slice(-3).reverse().map((product) => <Products product={product} />)}
+          
         </div>
 
         <footer className='border-t-[1px] w-full mt-20 border-black text-black flex flex-col items-center justify-center'>
