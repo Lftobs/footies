@@ -9,13 +9,6 @@ import { getProductById, getAllProducts } from '../lib/utilis'
 
 
 
-const products = [
-  { id: 1, name: 'Loafers Foam XV', price: 164.99, img: 'p5.png', color: 'rgb(161,147,131)' },
-  { id: 2, name: 'Loafers Foam XI', price: 205.55, img: 'p-null.png' },
-  { id: 3, name: 'Loafers Foam XIV', price: 310.12, img: 'p1.png' },
-];
-
-
 const Details = () => {
   const {id} = useParams()  
   const navigate = useNavigate()
