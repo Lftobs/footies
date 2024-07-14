@@ -143,7 +143,7 @@ const Cart = () => {
           ))
         }
         
-        
+        {cart?.length != 0 && <p onClick={() => {setCart([]), window.scrollTo(0,0)}} className='text-2xl cursor-pointer font-bold my-10 text-[rgba(249,126,47,1)]'>Clear cart</p> }
       </div>
         {cart && (
           <div className='border-black border-t-[1px] pt-16 text-black w-full flex flex-col items-center mb-16 max-w-[2000px] '>
