@@ -60,7 +60,7 @@ const Cart = () => {
         {
           cart.map((item) => (
             <>
-              <div className=' flex w-11/12 gap-8 mb-10'>
+              <div className=' flex w-11/12 gap-8 mb-10' key={item.id}>
                 <div className='w-[20%] flex justify-start max-lg:w-1/2 max-[800px]:w-[20rem]'>
                   <img src={`https://api.timbu.cloud/images/${item.photos[0].url}`} alt="" className='w-11/12 max-h-[16rem] rounded-3xl max-[800px]:w-full ' />
                 </div>
@@ -122,7 +122,7 @@ const Cart = () => {
                             <ul className=''>
                               {
                                 Array(5).fill().map((_, i) => (
-                                  <li onClick={() => updateQuantity(i+1, item.name)} className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>{i + 1} pair</li>
+                                  <li key={i} onClick={() => updateQuantity(i+1, item.name)} className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>{i + 1} pair</li>
                                 ))
                               }
                              

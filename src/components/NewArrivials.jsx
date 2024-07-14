@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Products from './Products'
 
 const NewArrivials = ({products}) => {
-    console.log(products)
+    // console.log(products)
   return (
     <>
         <div className='flex gap-14 mt-28 w-full max-2xl:flex-col-reverse max-2xl:items-center'>
@@ -38,7 +38,7 @@ const NewArrivials = ({products}) => {
               <div className='flex justify-between max-lg:hidden pr-4 w-11/12'>
                 {
                   products.slice(1, 3).map((product) => (
-                    <Products product={product} />
+                    <Products product={product} key={product.id}/>
                   ))
                 }
               </div>

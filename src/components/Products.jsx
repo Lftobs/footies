@@ -40,7 +40,7 @@ const Products = ({product}) => {
         <div className='relative group max-w-[24.8rem] bg-[rgba(242,238,231,1)] min-h-[23rem] max-lg:min-h-[17rem] overflow-hidden rounded-3xl max-lg:w-full' >
             <img 
               src={`https://api.timbu.cloud/images/${product.photos[0].url}`} alt="Produt" className='lg:h-[24rem] w-full max-lg:h-[17rem] group-hover:scale-105' 
-              onClick={() => 
+              onClick={() => {
                 navigate(`/products/${product.id}`, 
                 { state: {
                   id: product.id,
@@ -49,7 +49,7 @@ const Products = ({product}) => {
                   price: product.current_price[0].USD[0]},
                   // data: data 
                 }
-              )}
+              ), window.scrollTo(0, 0)}}
               />
             <div className='absolute bottom-10 left-10 text-white cursor-default'>
                 <h3 className='text-lg font-medium'>{product.name}</h3>

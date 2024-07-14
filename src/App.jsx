@@ -73,7 +73,7 @@ function App() {
           <div className=' my-24 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >
             {
               products.slice(-3).reverse().map((product) => (
-                <Products product={product} />
+                <Products product={product} key={product.id}/>
               ))
             }
           </div>
@@ -91,7 +91,7 @@ function App() {
           <div className=' my-24 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >
             {
               products.slice(0, 3).reverse().map((product) => (
-                <Products product={product} />
+                <Products product={product}  key={product.id}/>
               ))
             }
           </div>

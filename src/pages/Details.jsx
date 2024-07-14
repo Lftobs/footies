@@ -68,7 +68,7 @@ const Details = () => {
         ]
       }))
       setDisabled(false)
-      console.log(data, prod, 'prod')
+      // console.log(data, prod, 'prod')
 
       setTimeout(() => setLoading(false), 5000)
     };
@@ -126,7 +126,7 @@ const Details = () => {
            <div className='flex gap-5 mb-10 '>
             {
               Array(3).fill().map((_, i) => (
-                <div onClick={() => setImgModal(true)}>
+                <div onClick={() => setImgModal(true)} key={i}>
                   <img src={`https://api.timbu.cloud/images/${location.state.img}`} alt="" className='h-16 w-24 hover:scale-105'/>
                 </div>
               ))
@@ -171,7 +171,7 @@ const Details = () => {
                         <ul className=''>
                           {
                             Array(5).fill().map((_, i) => (
-                              <li onClick={() => updateQuantity(i+1, location.state.name)} className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>{i + 1} pair</li>
+                              <li key={i} onClick={() => updateQuantity(i+1, location.state.name)} className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>{i + 1} pair</li>
                             ))
                           }
                           
@@ -235,7 +235,7 @@ const Details = () => {
           )
           }
 
-          {!loading && products.slice(-3).reverse().map((product) => <Products product={product} />)}
+          {!loading && products.slice(-3).reverse().map((product) => <Products product={product} key={product.id} />)}
           
         </div>
 
