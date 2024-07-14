@@ -21,12 +21,10 @@ function App() {
 
   const next = () => {    
     setPage((prev) => prev > 3 ? prev : prev + 3 )
-    console.log(page)
   }
 
   const prev = () => {    
     setPage((prev) => prev === 0 ? 0 : prev - 3 )
-    console.log(page)
   }
   
   useEffect(() => {
