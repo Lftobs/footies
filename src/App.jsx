@@ -13,13 +13,20 @@ import { useAtom } from 'jotai';
 function App() {
   const [products, setProducts] = useState([])
   const carousel = useRef()
+  const [page, setPage] = useState(0)
   const [newArrivals, setNewArrivals] = useState([])
   const [loading, setLoading] = useState(true)
   const [, setProductAtom] = useAtom(productAtom);
+  
 
-  const next = (len) => {    
-    carousel.current.scrollBy(760, 0)
-    
+  const next = () => {    
+    setPage((prev) => prev > 3 ? prev : prev + 3 )
+    console.log(page)
+  }
+
+  const prev = () => {    
+    setPage((prev) => prev === 0 ? 0 : prev - 3 )
+    console.log(page)
   }
   
   useEffect(() => {
@@ -90,15 +97,22 @@ function App() {
           </div> */}
           <div className=' my-24 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >
             {
-              products.slice(0, 3).reverse().map((product) => (
+              products.slice(page, page+3).map((product) => (
                 <Products product={product}  key={product.id}/>
               ))
             }
           </div>
           
-          {/* <div className='text-black text-5xl max-lg:hidden'>
-            <button onClick={() => next(3)}>next</button>
-          </div> */}
+          <div className='text-black w-full mb-10 flex justify-between text-2xl font-semibold max-lg:hidden'>
+          <button disabled={page === 0 ? true : false} onClick={() => prev()} className={`flex flex-row-reverse ${page === 0 && 'opacity-0'} gap-5 items-center text-[rgba(249,126,47,1)]`}>
+              <p>Previous</p>
+              <img src="/arr-right-1.png" alt="" className='h-5 w-10 -rotate-180' />
+            </button>
+            <button disabled={page === 6 ? true : false} onClick={() => next()} className={`flex ${page===6 && 'opacity-0'} gap-5 items-center text-[rgba(249,126,47,1)] `}>
+              <p>Next</p>
+              <img src="/arr-right-1.png" alt="" className='h-5 w-10' />
+            </button>
+          </div>
         </section>
         }
       </Layout>
