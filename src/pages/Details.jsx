@@ -14,6 +14,7 @@ const Details = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [loading, setLoading] = useState(false)
+  const [imgModal, setImgModal] = useState(false)
   const [disabled, setDisabled] = useState(true)
   const [cart, setCart] = useAtom(cartAtom);
   const [quantity, setQuantity] = useState(1)
@@ -46,13 +47,7 @@ const Details = () => {
   }, [cart])
 
   useEffect(() => { 
-    window.scrollTo(
-      {
-        top: -10,
-        behavior: 'smooth'
-      }
-    )
-    
+    window.scrollTo(0, 0)
     setLoading(true)
     const getData = async () => {
       const data = await getAllProducts();
@@ -128,6 +123,15 @@ const Details = () => {
       </header>
 
       <section className='text-black w-full flex flex-col  items-center max-w-[2000px] '>
+           <div className='flex gap-5 mb-10 '>
+            {
+              Array(3).fill().map((_, i) => (
+                <div onClick={() => setImgModal(true)}>
+                  <img src={`https://api.timbu.cloud/images/${location.state.img}`} alt="" className='h-16 w-24 hover:scale-105'/>
+                </div>
+              ))
+            }
+           </div>
           <div className='flex w-11/12 justify-between mb-3 lg:hidden text-black'>
             <div>
               <h3 className=' font-medium text-2xl'>{location.state.name}</h3>
@@ -203,7 +207,7 @@ const Details = () => {
             <button
               disabled={false} 
               onClick={() => {addToCart(singleProduct), navigate('/cart')}}
-              className={`${disabled && 'hidden'} p-6 mb-3 px-10 max-lg:px-5  border-[1.5px]  border-black rounded-3xl flex items-center gap-5 text-lg`}
+              className={`${disabled && 'opacity-50'} p-6 mb-3 px-10 max-lg:px-5  border-[1.5px]  border-black rounded-3xl flex items-center gap-5 text-lg`}
             >
               Proceed to checkout <img src='/arr-left-b.png' height={40} width={40} className='h-5 -rotate-180 w-10'/>
             </button>
@@ -260,7 +264,13 @@ const Details = () => {
         </footer>
         
       </section>
-
+      <section className={`fixed backdrop-blur-3xl ${imgModal ? 'grid': 'hidden'} place-items-center z-50 top-0 h-svh w-full`}>
+        
+        <div className='w-full flex flex-col justify-center gap-10 items-center text-black'>
+          <i onClick={() => setImgModal(false)}><img src="/close.png" alt="close" className='h-10 aspect-square'/></i>
+          <img src={`https://api.timbu.cloud/images/${location.state.img}`} alt="" className='w-[38rem] max-h-[40rem] max-lg:max-w-[90%]'/>
+        </div>
+      </section>
     </main>
     // <p>det</p>
   )

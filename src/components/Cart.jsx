@@ -104,9 +104,7 @@ const Cart = () => {
                           <div className='absolute border-[1px] border-black w-20  rounded-lg -ml-8 backdrop-blur-lg'>
                             <ul className=''>
                               <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>45 ER</li>
-                              <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>40 ER</li>
-                              <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>35 ER</li>
-                              <li className='mb-2 text-center font-bold py-2 cursor-pointer hover:bg-slate-300'>30 ER</li>
+                              
                             </ul>
                           </div>
                         </details>
