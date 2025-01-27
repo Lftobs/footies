@@ -1,31 +1,17 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import Layout from './layouts/Layout'
 import Products from './components/Products'
-import { json, Link } from 'react-router-dom';
-import { getAllProducts } from './lib/utilis';
-import NewArrivials from './components/NewArrivials';
-import { productAtom } from './store';
-import { useAtom } from 'jotai';
+import { Link } from 'react-router-dom';
 
 
+const products = [
+  { id: 1, name: 'Loafers Foam XV', price: 164.99, img: 'p5.png' },
+  { id: 2, name: 'Loafers Foam XI', price: 205.55, img: 'p-null.png' },
+  { id: 3, name: 'Loafers Foam XIV', price: 310.12, img: 'p1.png' },
+];
 
 function App() {
-  const [products, setProducts] = useState([])
-  const carousel = useRef()
-  const [page, setPage] = useState(0)
-  const [newArrivals, setNewArrivals] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [, setProductAtom] = useAtom(productAtom);
-  
-
-  const next = () => {    
-    setPage((prev) => prev > 3 ? prev : prev + 3 )
-  }
-
-  const prev = () => {    
-    setPage((prev) => prev === 0 ? 0 : prev - 3 )
-  }
   
   useEffect(() => {
     window.scrollTo(
@@ -35,34 +21,14 @@ function App() {
       }
     )
     
-    const getData = async () => {
-      const data = await getAllProducts();
-      setProducts(data);
-      setProductAtom(data)
-      localStorage.setItem('storeData', data)
-      const categories = data.filter(item =>
-        item.categories.some(cat => cat.name === 'new')
-      );
-      setNewArrivals(categories.reverse());
-      
-    };
+    // document.querySelector('.deets').style.backgroundSize = '100vw ' 
+  }, [])
   
-    getData();
-    setTimeout(() => setLoading(false), 5000)
-    return () => {
-    };
-  }, []);
-  
+
   return (
     <>
       <Layout >
-        
-        {loading && 
-          <div className='w-4/5 h-svh flex justify-center text-black max-w-[2000px]'>
-            <div className='loader mt-32 text-4xl'></div>
-          </div>
-        }
-        { !loading && <section className='w-4/5 text-black max-w-[2000px]'>
+        <section className='w-4/5 text-black'>
           <div className='my-10 flex justify-between max-lg:items-center'>
             <div className=''>
               <h1 className='text-4xl font-bold mb-2 max-lg:text-xl max-lg:mb-0'>Trending now</h1>
@@ -75,44 +41,62 @@ function App() {
             </div>
             
           </div>
-          <div className=' my-24 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >
+          <div className=' my-10 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >
             {
-              products.slice(-3).reverse().map((product) => (
-                <Products product={product} key={product.id}/>
-              ))
-            }
-          </div>
-
-          <NewArrivials products={newArrivals} />
-          
-          {/* <div ref={carousel} className='carousel max-2xl:hidden my-16 overflow-scroll pr-[95px] max grid w-full max-w-[100rem]' >
-            {
-              products.slice(0, 5).reverse().map((product) => (
+              products.map((product) => (
                 <Products product={product}/>
-
-              ))
-            }
-          </div> */}
-          <div className=' my-24 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >
-            {
-              products.slice(page, page+3).map((product) => (
-                <Products product={product}  key={product.id}/>
               ))
             }
           </div>
-          
-          <div className='text-black w-full mb-10 flex justify-between text-2xl font-semibold max-lg:hidden'>
-          <button disabled={page === 0 ? true : false} onClick={() => prev()} className={`flex flex-row-reverse ${page === 0 && 'opacity-0'} gap-5 items-center text-[rgba(249,126,47,1)]`}>
-              <p>Previous</p>
-              <img src="/arr-right-1.png" alt="" className='h-5 w-10 -rotate-180' />
-            </button>
-            <button disabled={page === 6 ? true : false} onClick={() => next()} className={`flex ${page===6 && 'opacity-0'} gap-5 items-center text-[rgba(249,126,47,1)] `}>
-              <p>Next</p>
-              <img src="/arr-right-1.png" alt="" className='h-5 w-10' />
-            </button>
+
+          <div className='flex gap-14 mt-28 w-full max-2xl:flex-col-reverse max-2xl:items-center'>
+            <h1 className='2xl:hidden max-lg:block text-[6rem] font-bold'>Shoes</h1>
+            <div className='relative group max-w-[25rem] bg-black overflow-hidden rounded-3xl max-2xl:w-full'>
+              <img src="/p2.png" alt="" className='group-hover:scale-105 h-full'/>
+              <div className='absolute top-10 left-10 text-white cursor-default'>
+                <h3 className='text-lg font-medium'>Loafers Foam XVII</h3>
+                <p className='opacity-90'>Men'<s></s></p>
+                <p className='font-extrabold text-lg'>1250.05</p>
+              </div>
+              <div className='absolute flex flex-col items-center bottom-10  text-white w-[25rem] cursor-default'>
+                <Link to={'/products/10'} state={{
+                    id: 10,
+                    name: 'Loafers Foam XVII',
+                    img: 'p2.png',
+                    price: 1250.05
+                  }}
+                  className='flex items-center font-medium mb-3 w-full gap-3 ml-32 hover:opacity-90]'
+                >
+                  Add to bag <img src="/arr-r.png" alt="" className='w-8 h-4' />
+                </Link>
+                <h3 className='text-3xl font-bold text-left w-10/12 tracking-widest max-lg:tracking-wide mb-1'>New Arrivals</h3>
+                <p className='opacity-90 text-left w-10/12 text-base max-lg:text-xs max-lg:text-balance'>Browser through the available collection or simply search to add to cart quickly!</p>
+              </div>
+            </div>
+            <div>
+              <div className='cursor-default -mt-36'>
+                <h1 className='text-[15rem] max-lg:text-[6rem] max-2xl:text-[13rem] max-2xl:mt-8 font-bold tracking-[-2rem] max-lg:tracking-normal max-lg:hover:tracking-normal hover:tracking-wider text-[rgba(249,126,47,1)]'>Men's</h1>
+                <h1 className='text-[15rem] -mt-36 font-bold max-2xl:hidden'>Shoes</h1>
+              </div>
+              <div className='flex gap-40 max-lg:hidden'>
+                {
+                  [{id: 4, name: 'Loafers Foam VII', img: 'p3.png', price: 852.18 }, {id: 4, name: 'Loafers Foam XVI', img: 'p4.png', price:689.12 }].map((product) => (
+                    <Products product={product} />
+                  ))
+                }
+              </div>
+            </div>
+            
+          </div>
+
+          <div className=' my-10 grid 2xl:grid-cols-3 max-lg:grid-cols-1 max-lg:place-items-center lg:grid-cols-2 gap-y-5 w-full ' >
+            {
+              products.map((product) => (
+                <Products product={product}/>
+              ))
+            }
           </div>
         </section>
-        }
       </Layout>
     </>
   )
