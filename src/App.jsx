@@ -28,7 +28,7 @@ function App() {
   return (
     <>
       <Layout >
-        <section className='w-4/5 text-black'>
+        <section className='w-4/5 text-black max-w-[2000px]'>
           <div className='my-10 flex justify-between max-lg:items-center'>
             <div className=''>
               <h1 className='text-4xl font-bold mb-2 max-lg:text-xl max-lg:mb-0'>Trending now</h1>
@@ -78,7 +78,7 @@ function App() {
                 <h1 className='text-[15rem] max-lg:text-[6rem] max-2xl:text-[13rem] max-2xl:mt-8 font-bold tracking-[-2rem] max-lg:tracking-normal max-lg:hover:tracking-normal hover:tracking-wider text-[rgba(249,126,47,1)]'>Men's</h1>
                 <h1 className='text-[15rem] -mt-36 font-bold max-2xl:hidden'>Shoes</h1>
               </div>
-              <div className='flex gap-40 max-lg:hidden'>
+              <div className='flex gap-40 px-12 max-lg:hidden'>
                 {
                   [{id: 4, name: 'Loafers Foam VII', img: 'p3.png', price: 852.18 }, {id: 4, name: 'Loafers Foam XVI', img: 'p4.png', price:689.12 }].map((product) => (
                     <Products product={product} />

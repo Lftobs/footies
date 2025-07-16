@@ -10,7 +10,7 @@ const Cart = () => {
   const [show, setShow] = useState(false)
   const [err, setErr] = useState('')
   const [cart, setCart] = useAtom(cartAtom);
-  const total = cart.length != 0 ? cart.reduce((acc, item) => acc + item.current_price[0].USD[0] * item.quantity, 0) : 0 
+  const total = cart.length != 0 ? cart.reduce((acc, item) => acc + item.price * item.quantity, 0) : 0 
   const fee = cart.length != 0 ? 80 : 0
 
   const handleSubmit = (e) => {
@@ -62,7 +62,7 @@ const Cart = () => {
             <>
               <div className=' flex w-11/12 gap-8 mb-10' key={item.id}>
                 <div className='w-[20%] flex justify-start max-lg:w-1/2 max-[800px]:w-[20rem]'>
-                  <img src={`https://api.timbu.cloud/images/${item.photos[0].url}`} alt="" className='w-11/12 max-h-[16rem] rounded-3xl max-[800px]:w-full ' />
+                  <img src={item.img} alt="" className='w-11/12 max-h-[16rem] rounded-3xl max-[800px]:w-full ' />
                 </div>
               <div className='w-[70%] max-lg:w-1/2'>
                 <div className='flex justify-between text-[1.3rem] font-medium max-lg:text-right max-lg:text-base'>
@@ -70,7 +70,7 @@ const Cart = () => {
                     <h1 className='max-lg:text-right max-lg:w-full'>{item.name}</h1>
                     <p>Men's</p>
                   </div>
-                  <p className='font-extrabold max-lg:hidden'>${(item.current_price[0].USD[0] * item.quantity).toFixed(2) }</p>
+                  <p className='font-extrabold max-lg:hidden'>${(item.price * item.quantity).toFixed(2) }</p>
                 </div>
                 <div className='hidden relative w-full max-lg:flex my-4 max-lg:gap-3 max-lg:justify-end max-[800px]:my-2' >
                   <div className='block w-[4rem] '>
@@ -93,7 +93,7 @@ const Cart = () => {
                   <p>White</p>
                 </div>
                 <div className='hidden mt-10 max-lg:flex justify-end max-lg:font-extrabold max-lg:text-2xl max-[800px]:mt-1 max-[800px]:text-xl'>
-                  <p>${item.current_price[0].USD[0] * item.quantity}</p>
+                  <p>${item.price * item.quantity}</p>
                 </div>
                 <div className='mt-10 flex gap-8 items-center max-lg:flex-col max-lg:hidden'>
                   <div className='flex flex-col items-center'>

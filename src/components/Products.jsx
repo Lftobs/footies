@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { cartAtom } from '../store'
+import { cartAtom, cartNo as cartNoAtom } from '../store'
 import { useAtom } from 'jotai'
 import { useNavigate } from 'react-router-dom'
 
@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Products = ({product}) => {
     const [cart, setCart] = useAtom(cartAtom);
+    const [cartNo, setCartNo] = useAtom(cartNoAtom)
     const navigate = useNavigate()
     const [hold, setHold] = useState(false)
     const [img, setImg] = useState([])
@@ -25,6 +26,7 @@ const Products = ({product}) => {
               item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
             );
           } else {
+            setCartNo(prev => prev + 1)
             return [...cart, { ...product, quantity: 1 }];
           }
           
@@ -39,14 +41,14 @@ const Products = ({product}) => {
     <div className=' w-[25rem] max-w-[25rem] max-lg:w-full ' key={product.id}>
         <div className='relative group max-w-[24.8rem] bg-[rgba(242,238,231,1)] min-h-[23rem] max-lg:min-h-[17rem] overflow-hidden rounded-3xl max-lg:w-full' >
             <img 
-              src={`https://api.timbu.cloud/images/${product.photos[0].url}`} alt="Produt" className='lg:h-[24rem] w-full max-lg:h-[17rem] group-hover:scale-105' 
+              src={`/${product.img}`} alt="Produt" className='lg:h-[24rem] w-full max-lg:h-[17rem] group-hover:scale-105' 
               onClick={() => {
                 navigate(`/products/${product.id}`, 
                 { state: {
                   id: product.id,
                   name: product.name,
-                  img: product.photos[0].url,
-                  price: product.current_price[0].USD[0]},
+                  img: product.img,
+                  price: product.price},
                   // data: data 
                 }
               ), window.scrollTo(0, 0)}}
@@ -54,7 +56,7 @@ const Products = ({product}) => {
             <div className='absolute bottom-10 left-10 text-white cursor-default'>
                 <h3 className='text-lg font-medium'>{product.name}</h3>
                 <p className='opacity-90'>Men'<s></s></p>
-                <p className='font-extrabold text-lg'>${product.current_price[0].USD[0]}</p>
+                <p className='font-extrabold text-lg'>${product.price}</p>
             </div>
         </div>
         

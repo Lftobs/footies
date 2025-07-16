@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import { useAtom } from 'jotai'
 import { Outlet, useNavigate } from 'react-router-dom'
 import Nav from '../components/Nav'
 
 
 const Layout = ({children, page}) => {
   const [search, setSearch ] = useState('')
+
   const navigate = useNavigate()
   return (
     <>
@@ -12,7 +14,7 @@ const Layout = ({children, page}) => {
 
           
             <header 
-              className={`flex flex-col items-center w-full bg-[url("/hero.png")] bg-no-repeat bg-top bg-contain rounded-b-[4rem] bg-[rgba(174,170,165,255)] max-lg:h-auto max-lg:bg-none max-lg:p-0 ${page==='cart' && 'bg-none bg-transparent' }`}
+              className={`flex flex-col items-center w-full bg-[url("/hero.png")] bg-no-repeat bg-top bg-contain rounded-b-[4rem] bg-[rgba(174,170,165,255)] max-w-[2000px] max-lg:h-auto max-lg:bg-none max-lg:p-0 ${page==='cart' && 'bg-none bg-transparent' }`}
             >
               <div className='hidden max-lg:flex max-lg:flex-col items-center'>
                 {page==='cart' && (
@@ -36,7 +38,7 @@ const Layout = ({children, page}) => {
                 
               </div>
 
-              <Nav navigate={navigate} page={page}/>
+              <Nav navigate={navigate} page={page} />
 
               {page==='cart' && (
                 <div className='my-10 max-[1023px]:hidden'>
