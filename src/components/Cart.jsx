@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { cartAtom } from '../store';
 import Layout from '../layouts/Layout';
+import { cartNo as cartNoAtom } from '../../src/store'
 import { useNavigate } from 'react-router-dom';
 
 
@@ -10,6 +11,7 @@ const Cart = () => {
   const [show, setShow] = useState(false)
   const [err, setErr] = useState('')
   const [cart, setCart] = useAtom(cartAtom);
+  const [cartNo, setCartNo] = useAtom(cartNoAtom);
   const total = cart.length != 0 ? cart.reduce((acc, item) => acc + item.price * item.quantity, 0) : 0 
   const fee = cart.length != 0 ? 80 : 0
 
@@ -27,6 +29,7 @@ const Cart = () => {
   const removeFromCart = (item) => {
     setCart((cart) => cart.filter((cartItem) => cartItem.name !== item));
     localStorage.setItem('cart', JSON.stringify(cart));
+    setCartNo((prev) => prev - 1);
   };
 
   const updateQuantity = (qyt, name) => {
@@ -143,7 +146,7 @@ const Cart = () => {
           ))
         }
         
-        {cart?.length != 0 && <p onClick={() => {setCart([]), window.scrollTo(0,0)}} className='text-2xl cursor-pointer font-bold my-10 text-[rgba(249,126,47,1)]'>Clear cart</p> }
+        {cart?.length != 0 && <p onClick={() => {setCart([]), setCartNo(0), window.scrollTo(0,0)}} className='text-2xl cursor-pointer font-bold my-10 text-[rgba(249,126,47,1)]'>Clear cart</p> }
       </div>
         {cart && (
           <div className='border-black border-t-[1px] pt-16 text-black w-full flex flex-col items-center mb-16 max-w-[2000px] '>
